@@ -368,6 +368,31 @@ function isValidEmail(email) {
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", async () => {
+  // Check authentication
+  if (!localStorage.getItem('currentUser')) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Add user welcome and logout button to navbar
+  const navbarNav = document.querySelector('#navbarNav');
+  if (navbarNav) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const authDiv = document.createElement('div');
+    authDiv.className = 'd-flex align-items-center me-3';
+    authDiv.innerHTML = `
+      <span class="text-light mb-2 mb-lg-0">Welcome, ${currentUser.name}</span>
+    `;
+    navbarNav.insertBefore(authDiv, navbarNav.querySelector('form'));
+
+    // Add logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    });
+  }
+
+  // Continue with existing initialization
   await initializeSections();
 
   document.querySelectorAll(".nav-link[data-type]").forEach((link) => {
