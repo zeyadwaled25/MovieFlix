@@ -55,7 +55,7 @@ async function initializeSections() {
     sectionMovies.tv = tvShows;
 
     updateCarouselContent(".trending-slider .d-flex", trending, "trending");
-    updateCarouselContent(".movies-slider .d-flex", movies, "movie"); // هنا نستخدم movies-slider
+    updateCarouselContent(".movies-slider .d-flex", movies, "movie");
     updateCarouselContent(".tv-slider .d-flex", tvShows, "tv");
 
     if (trending.length > 0) {
@@ -448,27 +448,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
 
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-suggestions") && !e.target.closest("form")) {
-      suggestionsDiv.style.display = "none";
-    }
-  });
-
-  searchForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const query = searchInput.value.trim();
-
-    if (query) {
-      const results = await searchMovies(query);
-      if (results.length > 0) {
-        await updateHeroSection(results[0]);
-        updateContentTitle("", true, query);
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".search-suggestions") && !e.target.closest("form")) {
         suggestionsDiv.style.display = "none";
-      } else {
-        showError("No results found");
       }
-    }
-  });
+    });
+  
+    searchForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+  
+      if (query) {
+        const results = await searchMovies(query);
+        if (results.length > 0) {
+          await updateHeroSection(results[0]);
+          updateContentTitle("", true, query);
+          suggestionsDiv.style.display = "none";
+        } else {
+          showError("No results found");
+        }
+      }
+    });
 
   // Traile
   document.querySelector(".trailer-btn").addEventListener("click", async () => {
